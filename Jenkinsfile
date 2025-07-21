@@ -13,7 +13,7 @@ label {
 		stage ('CLEAN_OLD_M2') {
 			
 			steps {
-				sh " rm -rf * "
+				sh " rm -rf /root/.m2/repository * "
 				
 				
 			}
