@@ -15,7 +15,10 @@ label {
 		
 			steps {
 						
-						sh "mvn clean install"
+						sh '''
+                                                rm -rf /root/.m2/repository
+                                                     mvn clean install
+						     
 			
 			}
 			
