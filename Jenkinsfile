@@ -16,8 +16,6 @@ label {
 			steps {
 						
 						sh '''
-                                               
-                                                rm -rf /root/.m2/repository
                                                      mvn clean install
 						     '''
 						     
@@ -33,6 +31,7 @@ label {
 						
 						sh '''
                                          chmod -R 777 /mnt/
+					 rm -rf rahul*
 					 rm -rf /mnt/servers/apache-tomcat-10.1.43/webapps/LoginWebApp.war
                                          rm -rf /mnt/servers/apache-tomcat-10.1.43/webapps/LoginWebApp
 					cp -r /mnt/rahul/target/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.43/webapps/
