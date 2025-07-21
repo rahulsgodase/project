@@ -2,8 +2,8 @@
 pipeline {
 agent {
 label {
-		label "built-in-project"
-		customWorkspace "/data/project-myapp"
+		label "built-in"
+		customWorkspace "/mnt/rahul"
 		
 		}
 		}
@@ -13,7 +13,7 @@ label {
 		stage ('CLEAN_OLD_M2') {
 			
 			steps {
-				sh "rm -rf /home/saccount/.m2/repository"
+				sh "rm -rf /root/.m2/repository"
 				
 			}
 			
@@ -23,7 +23,7 @@ label {
 		
 			steps {
 						
-						sh "mvn clean package"
+						sh "mvn clean install"
 			
 			}
 			
@@ -34,7 +34,7 @@ label {
 		
 				steps {
 						
-						sh "scp -r target/LoginWebApp.war saccount@10.0.2.51:/data/project/wars"
+						sh "cp -r /mnt/rahul/project/target/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.43/webapps/"
 
 						}
 				
