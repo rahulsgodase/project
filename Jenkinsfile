@@ -28,6 +28,8 @@ label {
 						
 						sh '''
                                          chmod -R 777 /mnt/
+					 rm -rf /mnt/rahul/target/LoginWebApp.war
+                                         rm -rf /mnt/rahul/target/LoginWebApp
 					cp -r /mnt/rahul/target/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.43/webapps/
                                         cd /mnt/servers/apache-tomcat-10.1.43/bin/
 				
