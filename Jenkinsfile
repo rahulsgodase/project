@@ -18,6 +18,7 @@ label {
 						sh '''
                                                 rm -rf /root/.m2/repository
                                                      mvn clean install
+						     '''
 						     
 			
 			}
