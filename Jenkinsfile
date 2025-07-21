@@ -14,7 +14,7 @@ label {
 			
 			steps {
 				sh " rm -rf * "
-				sh "rm -rf /root/.m2/repository"
+				
 				
 			}
 			
