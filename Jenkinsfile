@@ -38,10 +38,12 @@ pipeline {
 								
 							stage('stage-3') {
 							   steps {
+								   sh '''
 							      cp /mnt/docker-compose.yaml /mnt/w-space
 								  cd /mnt/w-space
 								  docker-compose down || true
 								  docker-compose up 
+		                  '''
 								  }
 								 }
 						}
