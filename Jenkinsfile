@@ -1,51 +1,50 @@
-//jqglqngl
 pipeline {
-agent {
-label {
-		label "built-in"
-		customWorkspace "/mnt/rahul"
-		
-		}
-		}
-		
-	stages {
-		
-		
-		stage ('MAVEN_BUILD') {
-		
-			steps {
-						
-						sh '''
-                                                     mvn clean install
-						     '''
-						     
-			
-			}
-			
-		
-		}
-		
-		stage ('COPY_WAR_TO_Server'){
-		
-				steps {
-						
-						sh '''
-                                         chmod -R 777 /mnt/
-					 rm -rf rahul*
-					 rm -rf /mnt/servers/apache-tomcat-10.1.43/webapps/LoginWebApp.war
-                                         rm -rf /mnt/servers/apache-tomcat-10.1.43/webapps/LoginWebApp
-					cp -r /mnt/rahul/target/LoginWebApp.war /mnt/servers/apache-tomcat-10.1.43/webapps/
-                                        cd /mnt/servers/apache-tomcat-10.1.43/bin/
-				
-                                        
-					'''
-
+        agent {
+		        label { 
+				        label 'built-in'
+						customWorkspace '/mnt/w-space'
 						}
-				
 				}
-	
-	
-	
-	}
-		
-}
+     stages {
+            stage('parallel-stage') {
+			       parallel {
+				           stage ('stage-1') {
+						     steps { 
+							      sh '''
+								     mvn clean install
+									 '''
+									 }
+									}
+						   stage ('stage-2-install docker') {
+						      steps {
+						            sh '''
+									yum install docker -y
+									systemctl start docker
+									'''
+									}
+								}
+								
+							stage('stage-3 install docker-compose') {
+							    steps {
+								    sh '''
+									 curl -SL https://github.com/docker/compose/releases/download/v2.39.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+									 chmod +x /usr/local/bin/docker-compose
+									 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+									 '''
+									 }
+								}
+						}
+				}
+								
+							stage('stage-3') {
+							   steps {
+							      cp /mnt/docker-compose.yaml /mnt/w-space
+								  cd /mnt/w-space
+								  docker-compose down || true
+								  docker-compose up 
+								  }
+								 }
+						}
+						
+					}
+                   			
