@@ -5,10 +5,8 @@ pipeline {
 						customWorkspace '/mnt/w-space'
 						}
 				}
-     stages {
-            stage('parallel-stage') {
-			       parallel {
-				           stage ('stage-1') {
+                  stages {
+  				           stage ('stage-1') {
 						     steps { 
 							      sh '''
 								     mvn clean install
@@ -33,17 +31,15 @@ pipeline {
 									 '''
 									 }
 								}
-						}
-				}
-								
+
 							stage('stage-3') {
 							   steps {
-								   sh '''
+							   sh '''
 							      cp /mnt/docker-compose.yaml /mnt/w-space
 								  cd /mnt/w-space
 								  docker-compose down || true
 								  docker-compose up 
-		                  '''
+								  '''
 								  }
 								 }
 						}
