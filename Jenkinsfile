@@ -4,7 +4,7 @@ pipeline {
          stage('1') {
              steps {
                   dir ("/mnt/ws")
-                 sh " echo " hii all " >> index.html "
+                 sh ' echo " hii all " >> index.html '
              }
          }
           stage('2') {
