@@ -10,7 +10,7 @@ pipeline {
           stage('2') {
             steps {
                sh " mvn clean install "
-               cp LoginWebApp /mnt
+               cp target/LoginWebApp /mnt
           }
    }
 }
