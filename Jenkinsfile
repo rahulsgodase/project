@@ -1,9 +1,14 @@
 pipeline {
-   agent any
+   agent {
+        label {
+                  label 'built-in' 
+                  customWorkspace '/mnt/ws'
+        }
+   }
    stages {
          stage('1') {
              steps {
-                  dir ("/mnt/ws")
+                  dir ("/mnt/ws/1")
                  sh ' echo " hii all " >> index.html '
              }
          }
