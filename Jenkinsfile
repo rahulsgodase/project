@@ -20,7 +20,7 @@ pipeline {
 							 chmod -R 700 update.sh
 							 ./update.sh 
 							 
-                  	cp /mnt/ws/target/LoginWebApp /mnt/servers/apache-tomcat-10.1.44/webapps
+                  	cp -r /mnt/ws/target/LoginWebApp /mnt/servers/apache-tomcat-10.1.44/webapps
 							 cd /mnt/servers/apache-tomcat-10.1.44/bin
 							 ./shutdown.sh
 							 ./startup.sh
