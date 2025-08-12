@@ -1,33 +1,51 @@
 pipeline {
-          agent {
-		     label {
-		            label 'built-in'
-                    customWorkspace '/mnt/ws'					
+        agent {
+		        label { 
+				        label 'built-in'
+						customWorkspace '/mnt/w-space'
+						}
 				}
-			}
-      stages {
-           stage('sg-1') {
-                 steps {
-				          sh '''
-						  mvn clean install
-						  '''
+                  stages {
+  				           stage ('stage-1') {
+						     steps { 
+							      sh '''
+								     mvn clean install
+									 cd /root
+									 ./update.sh
+									 '''
+									 }
+									}
+						   stage ('stage-2-install docker') {
+						      steps {
+						            sh '''
+									yum install docker -y
+									systemctl start docker
+									'''
+									}
+								}
+								
+							stage('stage-3 install docker-compose') {
+							    steps {
+								    sh '''
+									 curl -SL https://github.com/docker/compose/releases/download/v2.39.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+									 chmod +x /usr/local/bin/docker-compose
+									 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+									 '''
+									 }
+								}
+
+							stage('stage-3') {
+							   steps {
+							   sh '''
+							      chmod -R 777 /mnt
+							      cp /mnt/docker-compose.yaml /mnt/w-space
+								  cd /mnt/w-space
+								  docker-compose down || true
+								  docker-compose up -d
+								  '''
+								  }
+								 }
+						}
+						
 					}
-		}
-		   stage('sg-2') {
-		              steps {
-					  sh '''
-					         cd /root
-							 chmod -R 700 update.sh
-							 ./update.sh 
-							 
-                  	cp -r /mnt/ws/target/LoginWebApp /mnt/servers/apache-tomcat-10.1.44/webapps
-							 cd /mnt/servers/apache-tomcat-10.1.44/bin
-							 ./shutdown.sh
-							 ./startup.sh
-						'''
-					}
-             }
-         }
-   }		 
-	 
-				
+                   			
